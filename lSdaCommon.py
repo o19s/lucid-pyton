@@ -37,7 +37,7 @@ class LucidSdaConfiguration(object):
 class LucidCollConfiguration(LucidSdaConfiguration):
     """ Collection knowing configuration"""
     def __init__(self, collectionName, url, httpAuth):
-        super(LucidCollConfiguration, self).__init__(url, httpAuth, None)
+        super(LucidCollConfiguration, self).__init__(url, httpAuth)
         self.collectionName = collectionName
 
     @staticmethod
