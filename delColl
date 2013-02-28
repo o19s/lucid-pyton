@@ -1,0 +1,7 @@
+#!/usr/bin/env python
+from lSdaCollection import LucidSdaCollection
+from sys import argv
+
+collName = argv[1]
+coll = LucidSdaCollection(collName, autoCreate=False)
+coll.delete(promptToVerify=True)
