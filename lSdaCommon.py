@@ -32,6 +32,12 @@ class LucidSdaConfiguration(object):
     @property
     def pingUrl(self):
         return self.baseUrl + "/sda/v1/ping"
+    
+    def generateSolrUrlSameHost(self, portNo=8888):
+        from urlparse import urlparse
+        lwbdUrlParsed = urlparse(self.lweBaseUrl)
+        return lwbdUrlParsed.scheme + "://" + lwbdUrlParsed.netloc.split(":")[0] \
+		+ ":" + str(portNo) + "/solr"
 
 
 class LucidCollConfiguration(LucidSdaConfiguration):
@@ -107,6 +113,11 @@ class LucidCollConfiguration(LucidSdaConfiguration):
             "/collections/" + self.collectionName + \
             "/fieldtypes"
 
+    def solrUrlOnSameHost(self, portNo=8888):
+        return self.generateSolrUrlSameHost(portNo) + \
+               "/" + self.collectionName
+
+
 
 def checkRespCode(respCode, url, expectedResp=200,
                   errorMsg="No Error Message Passed"):
@@ -115,3 +126,7 @@ def checkRespCode(respCode, url, expectedResp=200,
                      "received from %s.\nMSG: %s"
         raise IOError(ioErrorMsg %
                      (respCode, url, errorMsg))
+
+if __name__ == "__main__":
+    config = LucidCollConfiguration("some_collection", "http://some_host:1234", ("administrator", "foo"))
+    print config.solrUrlOnSameHost()
